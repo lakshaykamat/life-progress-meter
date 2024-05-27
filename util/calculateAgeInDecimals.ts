@@ -1,3 +1,11 @@
+/**
+ * Calculate Age In Decimals
+ * 
+ * Calculates the age in years with decimals based on the provided birthdate.
+ * 
+ * @param {string} birthdate - The birthdate in "YYYY-MM-DD" format.
+ * @returns {number} The age in years with decimals.
+ */
 export default function calculateAgeInDecimals(birthdate: string): number {
     const today: Date = new Date();
     const birthdateDate: Date = new Date(birthdate);
@@ -10,4 +18,5 @@ export default function calculateAgeInDecimals(birthdate: string): number {
     const ageInYears: number = ageInDays / 365.25; // Consider leap years
   
     return ageInYears;
-}
+  }
+  
