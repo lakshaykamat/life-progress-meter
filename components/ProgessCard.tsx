@@ -45,11 +45,11 @@ const ProgessBar = ({ value, size }: { value: number; size: number }) => {
     >
       <div
         className="h-full bg-white"
-        style={{ width: `${value}%` }}
-        role="progressbar"
-        aria-valuemin="0"
-        aria-valuemax="100"
-        aria-valuenow={value}
+        style={{ width: `${value.toString()}%` }}
+        // role="progressbar"
+        // aria-valuemin="0"
+        // aria-valuemax="100"
+        // aria-valuenow={value.toString()}
       ></div>
     </div>
   );

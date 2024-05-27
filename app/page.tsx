@@ -61,7 +61,7 @@ export default function Home() {
       SET_STATE({
         ...STATE,
         age: calculateAgeInDecimals(DOB).toFixed(8),
-        ageInPern: AgeHandler.percen(new Date(DOB)),
+        ageInPercen: AgeHandler.percen(new Date(DOB)),
         day: DayHandler.calculate(),
         month: MonthHandler.calculate(),
         year: YearHandler.calculate(),
