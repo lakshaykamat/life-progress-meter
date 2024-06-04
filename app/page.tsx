@@ -3,14 +3,11 @@ import { useEffect, useState } from "react";
 import calculateAgeInDecimals from "@/util/calculateAgeInDecimals";
 import { BiSolidMessageSquareEdit, BiSolidInfoSquare } from "react-icons/bi";
 import LocalStorageHandler from "@/util/LocalStorageHander";
-import DayHandler from "@/util/DayHandler";
-import WeekHandler from "@/util/WeekHandler";
-import MonthHandler from "@/util/MonthHandler";
-import YearHandler from "@/util/YearHandler";
 import UTIL from "@/util";
 import ProgessCard, { VerticalProgessCard } from "@/components/ProgessCard";
-import AgeHandler from "@/util/AgeHandler";
 import COLLEGE_HANDLER from "@/util/CollegeHandler";
+import Time from "@/util/Time";
+import AgeHandler from "@/util/AgeHandler";
 
 type AgeProps = {
   week: number;
@@ -20,17 +17,19 @@ type AgeProps = {
   month: number;
   age: string | null;
   life: number | null;
+  currentTime: string;
 };
 
 export default function Home() {
   const [STATE, SET_STATE] = useState<AgeProps>({
-    week: WeekHandler.calculate(),
+    week: Time.Week.calculate(),
     ageInPercen: null,
-    day: DayHandler.calculate(),
-    month: MonthHandler.calculate(),
-    year: YearHandler.calculate(),
+    day: Time.Day.calculate(),
+    month: Time.Month.calculate(),
+    year: Time.Year.calculate(),
     age: null,
     life: null,
+    currentTime: Time.show()
   });
 
   useEffect(() => {
@@ -41,35 +40,36 @@ export default function Home() {
           ...STATE,
           age: calculateAgeInDecimals(savedDOB).toFixed(8),
           ageInPercen: AgeHandler.percen(new Date(savedDOB)),
-          day: DayHandler.calculate(),
-          month: MonthHandler.calculate(),
-          year: YearHandler.calculate(),
-          week: WeekHandler.calculate(),
+          day: Time.Day.calculate(),
+          month: Time.Month.calculate(),
+          year: Time.Year.calculate(),
+          week: Time.Week.calculate(),
           life: AgeHandler.life(new Date(savedDOB), 75),
+          currentTime: Time.show()
         });
       } else {
         SET_STATE({
           ...STATE,
           age: null,
           ageInPercen: null,
-          day: DayHandler.calculate(),
-          month: MonthHandler.calculate(),
-          year: YearHandler.calculate(),
-          week: WeekHandler.calculate(),
+          day: Time.Day.calculate(),
+          month: Time.Month.calculate(),
+          year: Time.Year.calculate(),
+          week: Time.Week.calculate(),
           life: null,
+          currentTime: Time.show()
         });
       }
     };
 
     const intervalId = setInterval(() => {
       updateState();
-    }, 4000);
+    }, 1000);
 
     return () => {
       clearInterval(intervalId);
     };
   }, [STATE]);
-  console.log(STATE);
 
   const editDOB = () => {
     const dob = prompt("Date of birth in format (YYYY-MM-DD)");
@@ -92,32 +92,34 @@ export default function Home() {
 
   return (
     <main className="bg-gray-950 p-7 sm:p-24 min-h-screen text-white">
+      <h2 className="text-5xl font-bold mb-6 text-center">{STATE.currentTime}</h2>
       <div className="flex flex-col md:flex-row xl:items-start items-center gap-12">
+
         <div className="flex flex-col min-w-[20rem] gap-6">
           <ProgessCard
             label="Day"
-            decimalPlaces={3}
+            decimalPlaces={2}
             value={STATE.day}
-            valueAsString={DayHandler.currentDay()}
+            valueAsString={Time.Day.currentDay()}
           />
 
           <ProgessCard
             label="Week"
-            decimalPlaces={3}
+            decimalPlaces={2}
             value={STATE.week}
-            valueAsString={WeekHandler.currentWeek()}
+            valueAsString={Time.Week.currentWeek()}
           />
           <ProgessCard
             label="Month"
-            decimalPlaces={3}
+            decimalPlaces={2}
             value={STATE.month}
-            valueAsString={MonthHandler.currentMonth()}
+            valueAsString={Time.Month.currentMonth()}
           />
           <ProgessCard
             label="Year"
-            decimalPlaces={3}
+            decimalPlaces={2}
             value={STATE.year}
-            valueAsString={YearHandler.currentYear()}
+            valueAsString={Time.Year.currentYear()}
           />
         </div>
         <div className="flex flex-col items-start gap-6 w-full">
